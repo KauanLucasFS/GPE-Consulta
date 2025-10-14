@@ -1,0 +1,158 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #fff;
+  color: #111;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+header {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 16px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pesquisa {
+  flex: 1;
+}
+
+.pesquisa input[type="search"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background: #fafafa;
+}
+
+.button-top button {
+  background: #fff;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.button-top button:hover {
+  background: #eee;
+}
+
+main {
+  flex: 1;
+  padding: 10px;
+  background: #f9f9f9;
+}
+
+.grid-saidaJson {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.saidaJson {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 12px 8px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+
+.saidaJson h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.saidaJson p {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.menu-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 0;
+  z-index: 10;
+}
+
+.menu-bottom a {
+  font-size: 1.5rem;
+  color: #111;
+  text-decoration: none;
+  padding: 0 10px;
+  transition: color 0.2s;
+}
+
+.menu-bottom a.active,
+.menu-bottom a:hover {
+  color: #000;
+  font-weight: bold;
+}
+
+.grid-produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+.produto-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.produto-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.produto-info h3 {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.produto-id,
+.produto-unid {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.btn-add {
+  margin-top: 12px;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #1d72b8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-add:hover {
+  background: #155d8b;
+}
+
+

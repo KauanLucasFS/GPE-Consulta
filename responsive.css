@@ -1,0 +1,57 @@
+@media (max-width: 600px) {
+
+  .grid-produtos {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  header, .menu-bottom {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 8px;
+  }
+  .produto {
+    padding: 10px 4px;
+  }
+
+  .dados {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .dados p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .lista-itens li {
+    font-size: 0.9rem;
+  }
+
+  .pedido-card {
+    padding: 0.8rem;
+  }
+
+  .pedido-card header h3 {
+    font-size: 0.95rem;
+  }
+
+  .lista-itens li {
+    font-size: 0.85rem;
+  }
+
+  .item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .btn-remover {
+    width: 100%;
+    text-align: center;
+  }
+
+  .item-info h3 {
+    font-size: 1rem;
+  }
+}
