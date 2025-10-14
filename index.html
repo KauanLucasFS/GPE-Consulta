@@ -4,29 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Almoxarifado - Estoque</title>
-  <link rel="stylesheet" href="responsive.css">
+  <title>Almoxarifado - Consulta de Estoque</title>
+
   <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="variavel.css">
+  <link rel="stylesheet" href="responsive.css">
   <link rel="stylesheet" href="index.css">
+
 </head>
 
 <body>
 
   <header>
     <nav class="pesquisa">
-      <input type="search" id="searchInput" placeholder="Buscar SKU ou material..." />
+      <!-- Campo de busca -->
+      <input type="search" id="searchInput" placeholder="Buscar por SKU, nome ou descrição..." />
+
+      <!-- Dropdown de filtro -->
+      <div id="filtroContainer" class="filtro-container"></div>
     </nav>
   </header>
 
   <main>
-    <pre class="saidaJson" id="saidaJson"></pre>
-    <ul id="lista">
-
-    </ul>
+    <!-- Produtos serão renderizados aqui -->
   </main>
 
   <nav class="menu-bottom">
-    <!-- inseridos pelo JS -->
+    <!-- Inserido via JS -->
   </nav>
 
   <script src="index.js"></script>

@@ -1,0 +1,14 @@
+:root {
+  --primary-color: #3f47b1; /* azul */
+  --secondary-color: #193591; /* azul escuro */
+  --background-color: #f3f4f6; /* cinza claro */
+  --card-background: #ffffff;
+  --text-color: #111827;
+  --text-muted: #6b7280;
+  --border-color: #d1d5db;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-strong: rgba(37, 99, 235, 0.2);
+  --radius: 14px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

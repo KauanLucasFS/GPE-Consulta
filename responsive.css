@@ -1,57 +1,53 @@
-@media (max-width: 600px) {
-
-  .grid-produtos {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  header, .menu-bottom {
-    flex-direction: row;
-    align-items: center;
-    padding: 12px 8px;
-  }
-  .produto {
-    padding: 10px 4px;
+@media (max-width: 768px) {
+  #searchInput {
+    max-width: 100%;
   }
 
-  .dados {
-    margin: 1rem;
-    padding: 1rem;
+  main {
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    padding: 1rem 1.25rem;
   }
 
-  .dados p {
+  #filtroContainer {
+    height: 42px;
+  }
+
+}
+
+/* Celular */
+@media (max-width: 480px) {
+  header {
+    padding: 1rem 1rem;
+  }
+
+  nav.pesquisa {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.2rem;
+    gap: 1rem;
   }
 
-  .lista-itens li {
-    font-size: 0.9rem;
-  }
-
-  .pedido-card {
-    padding: 0.8rem;
-  }
-
-  .pedido-card header h3 {
-    font-size: 0.95rem;
-  }
-
-  .lista-itens li {
-    font-size: 0.85rem;
-  }
-
-  .item-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .btn-remover {
+  #filtroContainer {
+    justify-content: center;
     width: 100%;
-    text-align: center;
+    padding: 0.6rem;
+    height: auto;
   }
 
-  .item-info h3 {
-    font-size: 1rem;
+  #filtroContainer select {
+    width: 100%;
+  }
+
+  main {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  .produto-card {
+    padding: 1.2rem 1.5rem;
+  }
+
+  .desc-longa {
+    font-size: 0.9rem;
   }
 }
