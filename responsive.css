@@ -1,53 +1,51 @@
+/* ==========================
+   RESPONSIVIDADE
+========================== */
 @media (max-width: 768px) {
-  #searchInput {
-    max-width: 100%;
-  }
-
-  main {
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    padding: 1rem 1.25rem;
-  }
-
-  #filtroContainer {
-    height: 42px;
-  }
-
-}
-
-/* Celular */
-@media (max-width: 480px) {
   header {
-    padding: 1rem 1rem;
+    padding: 1rem;
   }
 
   nav.pesquisa {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.8rem;
+  }
+
+  #searchInput {
+    width: 100%;
+    font-size: 1rem;
   }
 
   #filtroContainer {
+    width: 100%;
     justify-content: center;
-    width: 100%;
-    padding: 0.6rem;
-    height: auto;
-  }
-
-  #filtroContainer select {
-    width: 100%;
   }
 
   main {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-    margin: 1rem auto;
+    margin-top: 1.5rem;
+    gap: 1.25rem;
   }
 
   .produto-card {
-    padding: 1.2rem 1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  #paginacao button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .produto-info h3 {
+    font-size: 1.1rem;
   }
 
   .desc-longa {
+    font-size: 0.9rem;
+  }
+
+  #paginacao span {
     font-size: 0.9rem;
   }
 }

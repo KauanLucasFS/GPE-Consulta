@@ -1,9 +1,10 @@
-// index.js - versão final de busca + filtro por unid_pec
-
+// index.js - busca + filtro + paginação + unificação de JSONs
 let produtos = [];
 let produtosFiltrados = [];
+let paginaAtual = 1;
+const itensPorPagina = 20;
 
-// Função pra normalizar strings (remove acentos, espaços e deixa tudo minúsculo)
+// Normaliza strings
 function normalizeStr(value) {
   if (!value) return "";
   return String(value)
@@ -15,35 +16,68 @@ function normalizeStr(value) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("cd1.json");
-    produtos = await response.json();
+    // Carrega ambos os arquivos
+    const [cd1Res, zmmRes] = await Promise.all([
+      fetch("cd1.json"),
+      fetch("zmm045.json")
+    ]);
+
+    const [cd1Data, zmmData] = await Promise.all([
+      cd1Res.json(),
+      zmmRes.json()
+    ]);
+
+    // Padroniza os dois formatos de JSON
+    const padronizadosCd1 = cd1Data.map(p => ({
+      id_item: p.id_item ?? "",
+      desc_curta: p.desc_curta ?? "",
+      desc_longa: p.desc_longa ?? "",
+      unid_pec: p.unid_pec ?? "",
+      origem: "cd1"
+    }));
+
+    const padronizadosZmm = zmmData.map(p => ({
+      id_item: p.material?.trim() ?? "",
+      desc_curta: p.descricao?.trim() ?? "",
+      desc_longa: p.texto_completo?.trim() ?? "",
+      unid_pec: "ZMM045", // define uma unidade padrão
+      origem: "zmm045"
+    }));
+
+    // Junta tudo
+    produtos = [...padronizadosCd1, ...padronizadosZmm];
 
     gerarFiltroUnidades(produtos);
-    renderProdutos(produtos);
+    aplicarFiltros();
   } catch (erro) {
-    console.error("❌ Erro ao carregar o JSON:", erro);
+    console.error("❌ Erro ao carregar os arquivos:", erro);
     document.querySelector("main").innerHTML =
       `<p style="text-align:center;color:#900;">Erro ao carregar dados.</p>`;
   }
 
-  document.getElementById("searchInput")?.addEventListener("input", aplicarFiltros);
-  document.getElementById("filtroUnid")?.addEventListener("change", aplicarFiltros);
+  document.getElementById("searchInput")?.addEventListener("input", () => {
+    paginaAtual = 1;
+    aplicarFiltros();
+  });
 
+  document.getElementById("filtroUnid")?.addEventListener("change", () => {
+    paginaAtual = 1;
+    aplicarFiltros();
+  });
 });
 
 // Aplica busca e filtro
 function aplicarFiltros() {
   const termo = normalizeStr(document.getElementById("searchInput")?.value || "");
   const tokens = termo.split(/\s+/).filter(Boolean);
-
   const unidSelecionada = normalizeStr(document.getElementById("filtroUnid")?.value || "todas");
 
   produtosFiltrados = produtos.filter(p => {
     const searchable = [
-      p.id_item ?? "",
-      p.desc_curta ?? "",
-      p.desc_longa ?? "",
-      p.unid_pec ?? ""
+      p.id_item,
+      p.desc_curta,
+      p.desc_longa,
+      p.unid_pec
     ].map(normalizeStr).join(" ");
 
     const tokensMatch = tokens.every(t => searchable.includes(t));
@@ -53,16 +87,15 @@ function aplicarFiltros() {
     return tokensMatch && unidMatch;
   });
 
-  renderProdutos(produtosFiltrados);
+  renderProdutos();
 }
 
-// Cria o dropdown de unidades automaticamente
+// Cria o dropdown de unidades
 function gerarFiltroUnidades(lista) {
   const container = document.getElementById("filtroContainer");
   if (!container) return;
 
   const mapa = new Map();
-
   lista.forEach(p => {
     const raw = p.unid_pec ?? "";
     const norm = normalizeStr(raw);
@@ -81,44 +114,76 @@ function gerarFiltroUnidades(lista) {
 
   container.innerHTML = "";
   container.appendChild(select);
-
   select.addEventListener("change", aplicarFiltros);
 }
 
-// Renderiza os produtos na tela
-function renderProdutos(lista) {
+// Renderiza produtos e paginação
+function renderProdutos() {
   const main = document.querySelector("main");
   if (!main) return;
+
+  const lista = produtosFiltrados.length ? produtosFiltrados : produtos;
 
   if (!Array.isArray(lista) || lista.length === 0) {
     main.innerHTML = `<p style="text-align:center; color:#888;">Nenhum produto encontrado.</p>`;
     return;
   }
 
+  const inicio = (paginaAtual - 1) * itensPorPagina;
+  const fim = inicio + itensPorPagina;
+  const pagina = lista.slice(inicio, fim);
+
   main.innerHTML = `
     <section class="grid-produtos">
-      ${lista.map(prod => {
-        const descCurta = prod.desc_curta?.trim() || "";
-        const descLonga = prod.desc_longa?.trim() || "";
-        const sku = prod.id_item ?? "";
-        const unid = prod.unid_pec?.trim() || "";
-
-        return `
-          <article class="produto-card">
-            <div class="produto-info">
-              <h3>${escapeHtml(descCurta)}</h3>
-              ${descLonga ? `<p class="desc-longa">${escapeHtml(descLonga)}</p>` : ""}
-              <p class="produto-id"><strong>SKU:</strong> ${escapeHtml(String(sku))}</p>
-              <p class="produto-unid"><strong>Unidade:</strong> ${escapeHtml(unid)}</p>
-            </div>
-          </article>
-        `;
-      }).join("")}
+      ${pagina.map(prod => `
+        <article class="produto-card">
+          <div class="produto-info">
+            <h3>${escapeHtml(prod.desc_curta)}</h3>
+            ${prod.desc_longa ? `<p class="desc-longa">${escapeHtml(prod.desc_longa)}</p>` : ""}
+            <p class="produto-id"><strong>SKU:</strong> ${escapeHtml(String(prod.id_item))}</p>
+            <p class="produto-unid"><strong>Unidade:</strong> ${escapeHtml(prod.unid_pec)}</p>
+            <p class="produto-origem"><em>Fonte: ${prod.origem.toUpperCase()}</em></p>
+          </div>
+        </article>
+      `).join("")}
     </section>
+  `;
+
+  renderPaginacao(lista.length);
+}
+
+// Paginação
+function renderPaginacao(totalItens) {
+  let paginacaoContainer = document.getElementById("paginacao");
+
+  if (!paginacaoContainer) {
+    paginacaoContainer = document.createElement("div");
+    paginacaoContainer.id = "paginacao";
+    paginacaoContainer.style.textAlign = "center";
+    paginacaoContainer.style.margin = "1.5rem 0";
+    document.body.appendChild(paginacaoContainer);
+  }
+
+  const totalPaginas = Math.ceil(totalItens / itensPorPagina);
+
+  const btnAnterior = `<button ${paginaAtual === 1 ? "disabled" : ""} onclick="mudarPagina(${paginaAtual - 1})">⬅ Anterior</button>`;
+  const btnProxima = `<button ${paginaAtual === totalPaginas ? "disabled" : ""} onclick="mudarPagina(${paginaAtual + 1})">Próxima ➡</button>`;
+
+  paginacaoContainer.innerHTML = `
+    <div class="paginacao-botoes">
+      ${btnAnterior}
+      <span>Página ${paginaAtual} de ${totalPaginas}</span>
+      ${btnProxima}
+    </div>
   `;
 }
 
-// Protege contra caracteres especiais do JSON
+function mudarPagina(novaPagina) {
+  paginaAtual = novaPagina;
+  renderProdutos();
+}
+
+// Protege contra caracteres especiais
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")

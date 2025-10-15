@@ -1,3 +1,6 @@
+/* ==========================
+   BASE
+========================== */
 body {
   background-color: var(--background-color);
   color: var(--text-color);
@@ -8,7 +11,9 @@ body {
   line-height: 1.5;
 }
 
-/* Cabeçalho fixo com sombra leve */
+/* ==========================
+   CABEÇALHO
+========================== */
 header {
   background-color: var(--card-background);
   box-shadow: 0 4px 8px var(--shadow-light);
@@ -21,7 +26,6 @@ header {
   align-items: center;
 }
 
-/* Container do nav de busca */
 nav.pesquisa {
   width: 100%;
   max-width: 900px;
@@ -32,7 +36,9 @@ nav.pesquisa {
   justify-content: center;
 }
 
-/* Campo de busca estilizado */
+/* ==========================
+   BUSCA E FILTRO
+========================== */
 #searchInput {
   flex-grow: 1;
   min-width: 280px;
@@ -56,7 +62,7 @@ nav.pesquisa {
   box-shadow: 0 0 10px var(--primary-color);
 }
 
-/* Container do filtro */
+/* Filtro */
 #filtroContainer {
   background-color: var(--card-background);
   border: 1.5px solid var(--border-color);
@@ -67,7 +73,6 @@ nav.pesquisa {
   height: 44px;
 }
 
-/* Dropdown filtro */
 #filtroContainer select {
   border: none;
   font-size: 1rem;
@@ -76,17 +81,16 @@ nav.pesquisa {
   cursor: pointer;
   transition: background-color 0.25s ease;
   color: var(--text-color);
+  background-color: transparent;
 }
 
-
-
-#filtroContainer label {
-  margin-right: 0.5rem;
-  font-weight: 600;
-  color: var(--text-muted);
+#filtroContainer select:hover {
+  background-color: #f1f5f9;
 }
 
-/* Área principal dos produtos com grid responsivo */
+/* ==========================
+   GRID DE PRODUTOS
+========================== */
 main {
   flex-grow: 1;
   max-width: 1240px;
@@ -97,28 +101,30 @@ main {
   gap: 2rem;
 }
 
-/* Cartão do produto */
+/* ==========================
+   CARTÕES DE PRODUTO
+========================== */
 .produto-card {
   background-color: var(--card-background);
   border-radius: var(--radius);
-  box-shadow: 0 12px 24px var(--shadow-light);
+  box-shadow: 0 8px 24px var(--shadow-light);
   padding: 1.75rem 2rem;
   transition: transform var(--transition), box-shadow var(--transition);
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 1rem;
+  margin: 0.5rem;
 }
 
 .produto-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px var(--shadow-strong);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px var(--shadow-strong);
 }
 
-/* Título e descrição */
+/* Informações */
 .produto-info h3 {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--primary-color);
   margin-bottom: 0.4rem;
@@ -130,17 +136,14 @@ main {
   margin-top: 0.8rem;
   border-top: 1px dashed var(--border-color);
   padding-top: 0.8rem;
-  flex-grow: 1;
   line-height: 1.45;
 }
 
-/* Dados SKU e unidade */
 .produto-id,
-.produto-unid {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 0.8rem;
-  color: var(--text-color);
+.produto-unid,
+.produto-origem {
+  font-size: 0.95rem;
+  margin-top: 0.6rem;
 }
 
 .produto-id strong,
@@ -148,12 +151,57 @@ main {
   color: var(--primary-color);
 }
 
-/* Mensagem para lista vazia */
-#lista::before {
-  content: attr(data-message);
-  grid-column: 1 / -1;
-  text-align: center;
-  font-size: 1.15rem;
+.produto-origem {
+  font-style: italic;
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
+  margin-top: 0.6rem;
 }
+
+/* ==========================
+   PAGINAÇÃO
+========================== */
+#paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin: 2.5rem auto;
+  padding: 0 1rem;
+}
+
+#paginacao .paginacao-botoes {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+#paginacao button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+#paginacao button:hover:not(:disabled) {
+  background-color: #1e4ed8;
+  transform: translateY(-2px);
+}
+
+#paginacao button:disabled {
+  background-color: #cbd5e1;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+#paginacao span {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+
